@@ -14,3 +14,35 @@
 ### 显示图片示例
 
 ![登录界面](yh_android/images/1.png)
+
+
+
+## 主界面
+1. 检测服务器静态资源是否更新，用本地资源MD5与服务器资源MD5值匹配，下载MD5值不同的资源
+2. 加载mainActivity的界面，分为仪表盘、分析、应用、消息、设置
+
+### 界面内容
+
+1. 仪表盘
+```
+mobile/role/1/group/165/kpi
+```
+2. 分析
+```
+mobile/role/1/analyse
+```
+3. 应用
+```
+mobile/role/1/app
+```
+4. 消息
+```
+mobile/role/1/group/165/user/3020/message
+```
+
+### 显示图片示例
+
+![登录界面](yh_android/images/2.png)
+
+
+## 报表主题
