@@ -52,9 +52,8 @@
 
 如仪表盘界面：
 
-	```
 	/data/data/com.intfocus.yh_android/files/User-3020/	HTML/_mobile_role_1_group_165_kpi.html
-	```
+
 ### 读取PDF文件
 
 
