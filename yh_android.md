@@ -2,6 +2,8 @@
 
 ### 登陆界面
 1. 读取本地asset中的loading2. 显示loading/login.html页面
+3. 资源路径
+	```	/data/data/com.intfocus.yh_android/files/Shared/loading/	```
 ### 用户验证
 1. 调用方法		```	ApiHelper.authentication(mContext, username, URLs.MD5(password));
 	```2. 响应过程
@@ -16,7 +18,7 @@
 ![登录界面](yh_android/images/1.png)
 
 ## 主界面
-1. 调用checkAssetsUpdated方法，与服务器的文件比较MD5值，不同下载新的资源库
+1. 调用checkAssetsUpdated方法，若资源库不存在将isShouldUpdateAssets改为true，读取/data/data/com.intfocus.yh_android/files/user.plist，将其转为JSON格式，若MD5值不同，运行DownloadAssetsTask线程，从服务器端下载更新资源库
 2. 加载mainActivity的界面，分为仪表盘、分析、应用、消息、设置
 
 ### 子界面服务器链接
@@ -145,7 +147,7 @@
 
 1. 校正的逻辑
 
-	检测服务器静态资源是否更新，若更新则下载	读取本地资源的MD5值与服务器资源MD5值进行比对，一样则无需更新
+	调用checkAssetsUpdated方法，若资源库不存在将isShouldUpdateAssets改为true，读取/data/data/com.intfocus.yh_android/files/user.plist，将其转为JSON格式，若MD5值不同，运行DownloadAssetsTask线程，从服务器端下载更新资源库
 	
 2. 下载资源的链接
 
@@ -158,13 +160,13 @@
 1. 有锁屏时的逻辑
 
 	```
-	返回至桌面后，无需重新登录，直接进入解锁界面，输入正确密码后进入mainActivity
+	读取本地的/data/data/com.intfocus.yh_android/files/user.plist，使用readConfigFile方法，将user.plist转化为JSON格式，如果密码正确，上传解屏的用户行为信息，进入mainactivity的仪表盘界面
 	```
 
 2. 无锁屏时的逻辑
 
 	```
-	返回至桌面后，需要重新登录
+	返回至桌面后，进入LoginActivity重新登录
 	```
 3. 锁屏，输入正确密码后的后续操作
 
@@ -214,16 +216,28 @@
 1. 如何达到缓存效果
 
 	```
-	调用storeTabIndex方法，将信息存在/Configs/page_tab_index.plist中
+	第一次请求之后，客户端中已经存在缓存，客户端再次发送请求，有以下几种情况：
 	
-	例：
-	{
-    "report-8-group-165": 1
-	}
+	缓存没过期，则直接从缓存中读取数据。
+	
+	缓存过期：
+	
+		若向服务器的请求头中有ETag和Last-Modified，则添加User-Agent，IF-None-Match，If-Modified-Since到请求头
+		
+		若向服务器的请求头中只有ETag，则添加User-Agent，IF-None-Match到请求头
+		
+		若向服务器的请求头中只有Last-Modified，则添加User-Agent，If-Modified-Since到请求头
+		
+		若向服务器的请求头中没有ETag和Last-Modified，则添加User-Agent到请求头
+		
+		前三种情况若返回304，则从缓存中读取数据
+		
+		前三种情况若返回200，则和第四种情况一样，请求响应，缓存协商
+		
 	```
 
 2. 缓存的意义
 
 	```
-	获取上一次用户浏览的是主界面的哪个子界面
+	暂时保存用户以前访问过的信息，无需重新从服务器下载新的数据，直接从本地得到未更新的数据。
 	```
