@@ -7,16 +7,16 @@
 	```2. 响应过程
 	
 	```	post /api/v1/android/username/password/authentication
-		params: 	{		"device"：{		    "os": "Samsung Galaxy S5 - 4.4.4 - API 19 - 1080x1920",		    "platform": "android",		    "uuid": "772f48dd8599a5b0",		    "os_version": "4.4.4",		   "name": "Samsung Galaxy S5 - 4.4.4 - API 19 - 1080x1920"		}	}		response:	{	    "group_name": "大区(全部)商行(全部)",	    "role_id": 1,	    "group_id": 165,	    "code": 200,	    "app_ids": [],	    "analyse_ids": [],	    "device_state": true,	    "kpi_ids": [],	    "user_name": "张",	    "user_device_id": ,	    "user_num": "",	    "device_uuid": "",	    "user_id": 3020,	    "role_name": "测试人员",	    "loading_md5": "c10780bc76c8971d78ab5244b65b4b77",	    "assets_md5": "7e58d787137b055d5ec877134396c7ab"	    "assets": {	        "stylesheets_md5": "1d10ad9a61e9cd0662a298610680bd26",	        "javascripts_md5": "9287afcbd064e2ac30378d0847cf3fad",	        "fonts_md5": "5901960c857600316c3d141401c3af08",	        "images_md5": "1afa5893736851156a3612b34c1d88a6"	    },	}
+		params: 	{		"device"：{		    "os": "Samsung Galaxy S5 - 4.4.4 - API 19 - 1080x1920",		    "platform": "android",		    "uuid": "772f48dd8599a5b0",		    "os_version": "4.4.4",		   "name": "Samsung Galaxy S5 - 4.4.4 - API 19 - 1080x1920"		}	}		response:	{	    "group_name": "XXXX",	    "role_id": 1,	    "group_id": 165,	    "code": 200,	    "app_ids": [],	    "analyse_ids": [],	    "device_state": true,	    "kpi_ids": [],	    "user_name": "XXX",	    "user_device_id": ,	    "user_num": "",	    "device_uuid": "",	    "user_id": 3020,	    "role_name": "XXXX",	    "loading_md5": "c10780bc76c8971d78ab5244b65b4b77",	    "assets_md5": "7e58d787137b055d5ec877134396c7ab"	    "assets": {	        "stylesheets_md5": "1d10ad9a61e9cd0662a298610680bd26",	        "javascripts_md5": "9287afcbd064e2ac30378d0847cf3fad",	        "fonts_md5": "5901960c857600316c3d141401c3af08",	        "images_md5": "1afa5893736851156a3612b34c1d88a6"	    },	}
 	```
 	
 	
-### 显示图片示例
+### 登录界面图示
 
 ![登录界面](yh_android/images/1.png)
 
 ## 主界面
-1. 检测服务器静态资源是否更新，用本地资源MD5与服务器资源MD5值匹配，下载MD5值不同的资源
+1. 调用checkAssetsUpdated方法，与服务器的文件比较MD5值，不同下载新的资源库
 2. 加载mainActivity的界面，分为仪表盘、分析、应用、消息、设置
 
 ### 子界面服务器链接
@@ -24,25 +24,25 @@
 1. 仪表盘
 
 	```
-	mobile/role/1/group/165/kpi
+	/mobile/role/1/group/165/kpi
 	```
 
 2. 分析
 
 	```
-	mobile/role/1/analyse
+	/mobile/role/1/analyse
 	```
 
 3. 应用
 
 	```
-	mobile/role/1/app
+	/mobile/role/1/app
 	```
 
 4. 消息
 
 	```
-	mobile/role/1/group/165/user/3020/message
+	/mobile/role/1/group/165/user/3020/message
 	```
 
 ### 本地资源库
@@ -74,7 +74,7 @@
 
 
 
-### 显示图片示例
+### 图示
 
 #### 主界面
 
@@ -91,14 +91,14 @@
 1. 服务器链接
 
 	```
-	api/v1/user/userID/id/objectID/type/objectType
+	/api/v1/user/userID/id/objectID/type/objectType
 	```
 
 2. 上传参数
 
 	```	params：{
  	   “content”: ”test”,
- 	   ”user_name”: ”张磊”,
+ 	   ”user_name”: ”XXXX”,
  	   ”object_title”: ”测试报表模版2”
 	}
 	```3. 服务器响应
@@ -106,7 +106,7 @@
 	```	responseBody:{		"info":"评论(21) 创建成功.",		"code":201	}
 	```
 	
-### 显示图片示例
+### 图示
 
 ![评论界面](yh_android/images/4.png)
 
@@ -117,13 +117,13 @@
 1. 界面路径
 
 	```
-	data/data/com.intfocus.yh_android/files/User-3020/	HTML/_mobile_update_user_password.html
+	/data/data/com.intfocus.yh_android/files/User-3020/	HTML/_mobile_update_user_password.html
 	```
 	
 2. 服务器链接
 
 	```
-	api/v1/update/3020/password
+	/api/v1/update/3020/password
 	```
 3. 上传参数
 
@@ -150,7 +150,7 @@
 2. 下载资源的链接
 
 	```
-	api/v1/download/ assetName.zip
+	/api/v1/download/assetName.zip
 	```
 	
 ### 锁屏
@@ -172,7 +172,7 @@
 	读取本地的/data/data/com.intfocus.yh_android/files/	user.plist，使用readConfigFile方法，将user.plist转化为	JSON格式，如果密码正确，上传解屏的用户行为信息，进入	mainActivity的仪表盘界面
 	```
 	
-### 显示图片示例
+### 图示
 
 #### 设置界面
 
@@ -195,16 +195,35 @@
 2. 服务器链接
 
 	```
-	api/v1/android/logger
+	/api/v1/android/logger
 	```
 
 3. 上传参数
 
 	```
-	{    	"action_log": {   	    	"action": "解屏",   	    	"app_version": "a1.2.14",        	"user_name": "张磊",        	"user_id": 3020,        	"user_device_id": 734    	},    	"user": {        	"user_pass":"d27004b28a82aa04a7d6ef3026a4eaf4",        	"user_name": "张磊"    	}	}
+	{    	"action_log": {   	    	"action": "解屏",   	    	"app_version": "a1.2.14",        	"user_name": "XXX",        	"user_id": 3020,        	"user_device_id": 734    	},    	"user": {        	"user_pass":"d27004b28a82aa04a7d6ef3026a4eaf4",        	"user_name": "XXX"    	}	}
 	```
 4. 服务器响应
 
 	```
 	{    	"info": "创建成功",    	"code": 201	}
+	```
+	
+## 界面缓存机制
+
+1. 如何达到缓存效果
+
+	```
+	调用storeTabIndex方法，将信息存在/Configs/page_tab_index.plist中
+	
+	例：
+	{
+    "report-8-group-165": 1
+	}
+	```
+
+2. 缓存的意义
+
+	```
+	获取上一次用户浏览的是主界面的哪个子界面
 	```
