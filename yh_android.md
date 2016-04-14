@@ -159,10 +159,8 @@
 1. 有锁屏时的逻辑
 
 	```
-	显示锁屏界面：
-		在LoginActivity中的onCreate方法中，获取intent的信息。如果是从触屏界面过来，即intent有from_activity的信息并且from_activity中包含ConfirmPassCodeActivity则直接进入主界面。    	不是的话，相当于直接启动应用，则调用FileUtil的checkIsLocked方法读取/data/data/com.intfocus.yh_android/files/user.plist，判断use_gesture_password是否为true，则进入ConfirmPassCodeActivity，若为false，则直接进入mainActivity界面
-	解屏：
-		读取本地的/data/data/com.intfocus.yh_android/files/user.plist，使用readConfigFile方法，将user.plist转化为JSON格式，如果密码正确，上传解屏的用户行为信息，进入mainactivity的仪表盘界面
+	在LoginActivity中的onCreate方法中，获取intent的信息。如果是从触屏界面过来，即intent有from_activity的信息并且from_activity中包含ConfirmPassCodeActivity则直接进入主界面。    不是的话，相当于直接启动应用，则调用FileUtil的checkIsLocked方法读取/data/data/com.intfocus.yh_android/files/user.plist，判断use_gesture_password是否为true，则进入ConfirmPassCodeActivity，若为false，则直接进入mainActivity界面
+
 	```
 
 2. 无锁屏时的逻辑
@@ -173,7 +171,7 @@
 3. 锁屏，输入正确密码后的后续操作
 
 	```
-	读取本地的/data/data/com.intfocus.yh_android/files/	user.plist，使用readConfigFile方法，将user.plist转化为	JSON格式，如果密码正确，上传解屏的用户行为信息，进入	mainActivity的仪表盘界面
+	读取本地的/data/data/com.intfocus.yh_android/files/user.plist，使用readConfigFile方法，将user.plist转化为JSON格式，如果密码正确，上传解屏的用户行为信息，进入mainActivity的仪表盘界面
 	```
 	
 ### 图示
