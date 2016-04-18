@@ -18,8 +18,21 @@
 ![登录界面](yh_android/images/1.png)
 
 ## 主界面
-1. 调用checkAssetsUpdated方法，若资源库不存在将isShouldUpdateAssets改为true，读取/data/data/com.intfocus.yh_android/files/user.plist，将其转为JSON格式，若MD5值不同，运行DownloadAssetsTask线程，从服务器端下载更新资源库
-2. 加载mainActivity的界面，分为仪表盘、分析、应用、消息、设置
+加载mainActivity的界面，分别为仪表盘、分析、应用、消息、设置
+
+### 校正
+
+1. 校正的逻辑
+
+	```
+	调用checkAssetsUpdated方法，若资源库不存在将isShouldUpdateAssets改为true，读取/data/data/com.intfocus.yh_android/files/user.plist，将其转为JSON格式，若MD5值不同，运行DownloadAssetsTask线程，从服务器端下载更新资源库
+	```
+
+2. 下载资源的链接
+
+	```
+	/api/v1/download/assetName.zip
+	```
 
 ### 子界面服务器链接
 
@@ -136,42 +149,40 @@
 4. 服务器响应
 
 	```
+	密码重置成功：
+	
 	{
  	   "info": "密码更新成功",
  	   "code": 201
 	}
+	
+	密码重置失败：
+	
+	显示Toast：原始密码输入有误
 	```
 	
 ### 校正
 
-1. 校正的逻辑
-
-	调用checkAssetsUpdated方法，若资源库不存在将isShouldUpdateAssets改为true，读取/data/data/com.intfocus.yh_android/files/user.plist，将其转为JSON格式，若MD5值不同，运行DownloadAssetsTask线程，从服务器端下载更新资源库
-	
-2. 下载资源的链接
-
-	```
-	/api/v1/download/assetName.zip
-	```
+	和主界面中的校正一样
 	
 ### 锁屏
 
 1. 有锁屏时的逻辑
 
 	```
-	在LoginActivity中的onCreate方法中，获取intent的信息。如果是从触屏界面过来，即intent有from_activity的信息并且from_activity中包含ConfirmPassCodeActivity则直接进入主界面。    不是的话，相当于直接启动应用，则调用FileUtil的checkIsLocked方法读取/data/data/com.intfocus.yh_android/files/user.plist，判断use_gesture_password是否为true，则进入ConfirmPassCodeActivity，若为false，则直接进入mainActivity界面
-
+	锁屏开关设置监听器mSwitchLockListener，勾选至on	，isChecked为true，跳转至InitPassCodeActivity，设置锁屏密码，同时将/data/data/com.intfocus.yh_android/files/user.plist中的use_gesture_password改为true	
 	```
 
 2. 无锁屏时的逻辑
 
 	```
-	返回至桌面后，进入LoginActivity重新登录
+	锁屏开关设置监听器mSwitchLockListener，不勾选，isChecked，读取/data/data/com.intfocus.yh_android/files/user.plist，将其中的use_gesture_password改为false
 	```
 3. 锁屏，输入正确密码后的后续操作
 
 	```
-	读取本地的/data/data/com.intfocus.yh_android/files/user.plist，使用readConfigFile方法，将user.plist转化为JSON格式，如果密码正确，上传解屏的用户行为信息，进入mainActivity的仪表盘界面
+	在LoginActivity中的onCreate方法中，获取intent的信息。如果是从触屏界面过来，即intent有from_activity的信息并且from_activity中包含ConfirmPassCodeActivity则直接进入主界面。    不是的话，相当于直接启动应用，则调用FileUtil的checkIsLocked方法读取/data/data/com.intfocus.yh_android/files/user.plist，判断use_gesture_password是否为true，则进入ConfirmPassCodeActivity，若为false，则直接进入mainActivity界面
+
 	```
 	
 ### 图示
