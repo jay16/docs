@@ -255,3 +255,31 @@
 	```
 	暂时保存用户以前访问过的信息，无需重新从服务器下载新的数据，直接从本地得到未更新的数据。
 	```
+	
+3. 缓存的具体实现
+
+	```
+	当app需要向服务器发起Get请求时，调用HttpUtil中的httpGet方法。方法的传入参数为请求的URL地址和http请求头的hashMap。根据传入http请求头的hashMap来建立Request：
+	
+		若hashMap中有ETag和Last-Modified，则添加User-Agent，IF-None-Match，If-Modified-Since到Request中
+		
+		若hashMap中只有ETag，则添加User-Agent，IF-None-Match到Request中
+		
+		若hashMap中只有Last-Modified，则添加User-Agent，If-Modified-Since到Request中
+		
+		若hashMap中没有ETag和Last-Modified，则添加User-Agent到Request中
+	根据建立好的Request建立Response，得到Response的响应号，响应头以及body的信息，将其放入新建立的hashMap中，httpGet方法返回这个hashMap。
+	```
+	
+## 界面用户行为交互
+
+### 页签保存激活
+
+以消息为例：
+
+```
+	页签信息存储：
+		初始化TabView，点击消息的TabView（R.id.tab_message），点击其中的三个页签。同时调用storeTabIndex方法，如果Configs/page_tab_index.plist存在，该方法读取Configs/page_tab_index.plist的内容，并将其转化为JSON，将pageName和tabIndex放入JSON中，最后写入Configs/page_tab_index.plist。若该文件不存在，则建立JSON格式数据，将pageName和tabIndex放入JSON中，新建Configs/page_tab_index.plist文件写入。
+	页面信息激活：
+		随意刷新界面后，调用restoreTabIndex方法，读取Configs/page_tab_index.plist内容，转化为JSON格式，通过pageName:"message"找到tabIndex，将其返回。
+```
