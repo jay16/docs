@@ -167,16 +167,19 @@
 	
 ### 锁屏
 
+	初始化Switch控件，同时使用FileUtil的checkIsLocked方法，若不存在/data/data/com.intfocus.yh_android/files/user.plist，返回false，若存在，则读取user.plist内容并转化为JSON格式，判断是否含有use_gesture_password，若没有则添加use_gesture_password：false到user.plist中；是否含有gesture_password，若没有则添加gesture_password：false到user.plist中；是否含有is_login，若没有则添加is_login：false到user.plist中，最后返回变为JSON的user.plist内容中的use_gesture_password和is_login的value的逻辑与值。
+	使用Switch的setChecked方法，该方法的参数为FileUtil的checkIsLocked方法的返回值，设置初始状态为ON还是OFF。同时在SettingActivity中的OnResume方法中调用Switch的setChecked方法，保证退出程序返回时锁屏的状态
+
 1. 有锁屏时的逻辑
 
 	```
-	锁屏开关设置监听器mSwitchLockListener，勾选至on	，isChecked为true，跳转至InitPassCodeActivity，设置锁屏密码，同时将/data/data/com.intfocus.yh_android/files/user.plist中的use_gesture_password改为true	
+	锁屏开关设置监听器mSwitchLockListener，勾选至on，Switch控件的isChecked参数变为true，跳转至InitPassCodeActivity，设置锁屏密码，同时将/data/data/com.intfocus.yh_android/files/user.plist和Configs/Setting.plist中的use_gesture_password改为true，添加gesture_password：“XXXX”	
 	```
 
 2. 无锁屏时的逻辑
 
 	```
-	锁屏开关设置监听器mSwitchLockListener，不勾选，isChecked，读取/data/data/com.intfocus.yh_android/files/user.plist，将其中的use_gesture_password改为false
+	锁屏开关设置监听器mSwitchLockListener，不勾选或之前为ON滑动至OFF，Switch控件的isChecked参数变为false，读取/data/data/com.intfocus.yh_android/files/user.plist和Configs/Setting.plist将其中的use_gesture_password改为false，若无gesture_password参数，则添加gesture_password：“”
 	```
 3. 锁屏，输入正确密码后的后续操作
 
